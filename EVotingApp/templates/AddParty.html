@@ -1,0 +1,64 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Add Party • Admin</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="page">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">E-Voting <span class="pill">Admin</span></div>
+      <div class="nav-links">
+        <a class="active" href="{% url 'AddParty' %}">Add Party</a>
+        <a href="{% url 'ViewParty' %}">View Parties</a>
+        <a href="{% url 'ViewVotes' %}">View Votes</a>
+        <a href="{% url 'index' %}">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="hero">
+      <h1>Add a new party candidate</h1>
+      <p>Provide candidate, party, area, and a profile image to publish to voters.</p>
+    </div>
+
+    <div class="card">
+      <form name="f1" method="post" action={% url 'AddPartyAction' %} enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="helper">{{ data }}</div>
+        <div class="grid-2">
+          <div>
+            <label for="candidate">Candidate name</label>
+            <input id="candidate" type="text" name="t1" required>
+          </div>
+          <div>
+            <label for="party">Party name</label>
+            <select id="party" name="t2" required>
+              <option value="Congress">Congress</option>
+              <option value="BJP">BJP</option>
+            </select>
+          </div>
+          <div>
+            <label for="area">Area name</label>
+            <input id="area" type="text" name="t3" required>
+          </div>
+          <div>
+            <label for="image">Profile image</label>
+            <input id="image" type="file" name="t4" accept="image/*" required>
+            <div class="helper">JPG/PNG recommended</div>
+          </div>
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Add party</button>
+          <a class="btn btn-secondary" href="{% url 'ViewParty' %}">View parties</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">E-Voting • Privacy and Transparency</div>
+</body>
+</html>

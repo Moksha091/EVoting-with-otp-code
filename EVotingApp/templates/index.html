@@ -1,0 +1,49 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>E-Voting</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="page">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">E-Voting <span class="pill">Secure</span></div>
+      <div class="nav-links">
+        <a class="active" href="{% url 'index' %}">Home</a>
+        <a href="{% url 'Admin' %}">Admin Login</a>
+        <a href="{% url 'Login' %}">User Login</a>
+        <a href="{% url 'Register' %}">Register</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="hero">
+      <h1>Blockchain E‑Voting, private and transparent</h1>
+      <p>Cast and verify votes with confidence. Secured by blockchain, designed for clarity.</p>
+      <div class="actions">
+        <a class="btn btn-primary" href="{% url 'Login' %}">Login to vote</a>
+        <a class="btn btn-secondary" href="{% url 'Register' %}">Create account</a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>How it works</h3>
+      <div class="grid-2">
+        <div>
+          <p><strong>Register & verify</strong></p>
+          <p class="muted">Secure signup with face capture and OTP to ensure eligibility.</p>
+        </div>
+        <div>
+          <p><strong>Transparent casting</strong></p>
+          <p class="muted">Every vote is recorded immutably. Results are auditable without exposing identities.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">E-Voting • Privacy and Transparency</div>
+</body>
+</html>

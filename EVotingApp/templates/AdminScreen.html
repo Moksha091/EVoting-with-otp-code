@@ -1,0 +1,34 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Admin Dashboard • E-Voting</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="page">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">E-Voting <span class="pill">Admin</span></div>
+      <div class="nav-links">
+        <a href="{% url 'AddParty' %}">Add Party</a>
+        <a href="{% url 'ViewParty' %}">View Parties</a>
+        <a href="{% url 'ViewVotes' %}">View Votes</a>
+        <a href="{% url 'index' %}">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="hero">
+      <h1>Admin dashboard</h1>
+      <p>Manage parties, monitor votes, and oversee the election in one place.</p>
+    </div>
+    <div class="card">
+      {{ data|safe }}
+    </div>
+  </div>
+
+  <div class="footer">E-Voting • Privacy and Transparency</div>
+</body>
+</html>

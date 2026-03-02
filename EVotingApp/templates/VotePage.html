@@ -1,0 +1,33 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Cast Your Vote • E-Voting</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="page">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">E-Voting <span class="pill">Secure</span></div>
+      <div class="nav-links">
+        <a class="active" href="{% url 'votepage' %}">Cast your vote</a>
+        <a href="{% url 'index' %}">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="hero">
+      <h1>Choose your candidate</h1>
+      <p>Review the options and confirm your selection. Your vote is anonymous and auditable.</p>
+    </div>
+
+    <div class="card">
+      {{ data|safe }}
+    </div>
+  </div>
+
+  <div class="footer">E-Voting • Privacy and Transparency</div>
+</body>
+</html>

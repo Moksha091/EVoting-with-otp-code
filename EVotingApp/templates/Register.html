@@ -1,0 +1,109 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Register • E-Voting</title>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="page">
+	<div class="topbar">
+		<div class="nav">
+			<div class="brand">E-Voting <span class="pill">Secure</span></div>
+			<div class="nav-links">
+				<a href="{% url 'index' %}">Home</a>
+				<a href="{% url 'Admin' %}">Admin Login</a>
+				<a href="{% url 'Login' %}">User Login</a>
+				<a class="active" href="{% url 'Register' %}">Register</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="shell">
+		<div class="register-container">
+			<div class="login-header">
+				<div class="login-icon">
+					<svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<circle cx="12" cy="7" r="4" stroke="#3b82f6" stroke-width="2" />
+						<path d="M5 20C5 16.134 8.134 13 12 13C15.866 13 19 16.134 19 20" stroke="#3b82f6"
+							stroke-width="2" stroke-linecap="round" />
+						<path d="M12 13V11" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+					</svg>
+				</div>
+				<h1>Create your account</h1>
+				<p>Register to receive OTP and complete face capture for secure voting</p>
+			</div>
+
+			<div class="login-card">
+				<form name="f1" method="post" action={% url 'Signup' %}>
+					{% csrf_token %}
+					<div class="form-section">
+						<h3>New User Registration</h3>
+						<div class="grid-2">
+							<div>
+								<label for="username">Username</label>
+								<input id="username" type="text" name="username" placeholder="Choose a username"
+									required>
+							</div>
+							<div>
+								<label for="password">Password</label>
+								<input id="password" type="password" name="password" placeholder="Create a password"
+									required>
+							</div>
+							<div>
+								<label for="contact">Contact number</label>
+								<input id="contact" type="text" name="contact" inputmode="numeric"
+									placeholder="Your phone number" required>
+								<div class="helper">Digits only</div>
+							</div>
+							<div>
+								<label for="email">Email</label>
+								<input id="email" type="email" name="email" placeholder="your@email.com" required>
+								<div class="helper">Use your verified email</div>
+							</div>
+						</div>
+						<div>
+							<label for="address">Address</label>
+							<input id="address" type="text" name="address" placeholder="Your residential address"
+								required>
+						</div>
+						<div class="actions">
+							<button type="submit" class="btn btn-primary btn-full">Register</button>
+						</div>
+						<div class="form-footer">
+							<p>Already have an account? <a href="{% url 'Login' %}">Login here</a></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">E-Voting • Privacy and Transparency</div>
+
+	<!-- Toast Notification -->
+	<div id="toast" class="toast"></div>
+
+	<script>
+		// Check if there's an error message from the backend
+		const errorMessage = "{{ data|default:'' }}".trim();
+
+		if (errorMessage && errorMessage !== "" && errorMessage !== "None" && (errorMessage.includes("Unable") || errorMessage.includes("Error") || errorMessage.includes("already exists") || errorMessage.includes("Invalid"))) {
+			showToast(errorMessage, "error");
+		}
+
+		function showToast(message, type = "error") {
+			const toast = document.getElementById("toast");
+			toast.textContent = message;
+			toast.className = "toast toast-" + type + " show";
+
+			setTimeout(() => {
+				toast.className = "toast";
+			}, 4000);
+		}
+	</script>
+</body>
+
+</html>

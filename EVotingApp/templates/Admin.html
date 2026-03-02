@@ -1,0 +1,93 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Admin Login • E-Voting</title>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+
+<body class="page">
+	<div class="topbar">
+		<div class="nav">
+			<div class="brand">E-Voting <span class="pill">Admin</span></div>
+			<div class="nav-links">
+				<a href="{% url 'index' %}">Home</a>
+				<a class="active" href="{% url 'Admin' %}">Admin Login</a>
+				<a href="{% url 'Login' %}">User Login</a>
+				<a href="{% url 'Register' %}">Register</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="shell">
+		<div class="login-container">
+			<div class="login-header">
+				<div class="login-icon">
+					<svg width="80" height="80" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<rect x="5" y="11" width="14" height="10" rx="2" stroke="#3b82f6" stroke-width="2" />
+						<path d="M12 15V17" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+						<circle cx="12" cy="8" r="3" stroke="#3b82f6" stroke-width="2" />
+						<path d="M12 8V11" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" />
+					</svg>
+				</div>
+				<h1>Administrator Portal</h1>
+				<p>Access management tools to oversee parties and votes</p>
+			</div>
+
+			<div class="login-card">
+				<form name="f1" method="post" action={% url 'AdminLogin' %}>
+					{% csrf_token %}
+					<div class="form-section">
+						<h3>Admin Login</h3>
+						<div class="stack">
+							<div>
+								<label for="username">Username</label>
+								<input id="username" type="text" name="username" autocomplete="username"
+									placeholder="Enter admin username" required>
+							</div>
+							<div>
+								<label for="password">Password</label>
+								<input id="password" type="password" name="password" autocomplete="current-password"
+									placeholder="Enter admin password" required>
+							</div>
+						</div>
+						<div class="actions">
+							<button type="submit" class="btn btn-primary btn-full">Login as Admin</button>
+						</div>
+						<div class="form-footer">
+							<p><a href="{% url 'index' %}">← Back to home</a></p>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<div class="footer">E-Voting • Privacy and Transparency</div>
+
+	<!-- Toast Notification -->
+	<div id="toast" class="toast"></div>
+
+	<script>
+		// Check if there's an error message from the backend
+		const errorMessage = "{{ data|default:'' }}".trim();
+
+		if (errorMessage && errorMessage !== "" && errorMessage !== "None" && errorMessage.includes("Invalid")) {
+			showToast(errorMessage, "error");
+		}
+
+		function showToast(message, type = "error") {
+			const toast = document.getElementById("toast");
+			toast.textContent = message;
+			toast.className = "toast toast-" + type + " show";
+
+			setTimeout(() => {
+				toast.className = "toast";
+			}, 4000);
+		}
+	</script>
+</body>
+
+</html>

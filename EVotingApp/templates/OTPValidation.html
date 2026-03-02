@@ -1,0 +1,42 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>OTP Validation • E-Voting</title>
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body class="page">
+  <div class="topbar">
+    <div class="nav">
+      <div class="brand">E-Voting <span class="pill">Secure</span></div>
+      <div class="nav-links">
+        <a class="active" href="{% url 'CastVote' %}">Cast your vote</a>
+        <a href="{% url 'index' %}">Logout</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="shell">
+    <div class="hero">
+      <h1>Validate your OTP</h1>
+      <p>Enter the code sent to your registered email/phone to proceed.</p>
+    </div>
+
+    <div class="card">
+      <h3>One-Time Password</h3>
+      <form name="f1" method="post" action={% url 'OTPAction' %}>
+        {% csrf_token %}
+        <div class="helper">{{ data }}</div>
+        <label for="otp">Your OTP</label>
+        <input id="otp" type="text" name="otp" inputmode="numeric" required>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="footer">E-Voting • Privacy and Transparency</div>
+</body>
+</html>

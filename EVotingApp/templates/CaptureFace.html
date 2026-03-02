@@ -1,0 +1,106 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<title>Capture Face • Signup</title>
+	<link rel="stylesheet" href="{% static 'style.css' %}">
+	<script type="text/javascript" src="{% static 'webcam.min.js' %}"></script>
+	<script>
+		function take_snapshot() {
+			Webcam.snap(function (data_uri) {
+				document.getElementById('results').innerHTML =
+					'<div class="card"><h3>Captured image</h3><img src="' + data_uri + '" style="max-width:100%; border-radius:12px;"/></div>';
+				const request = new XMLHttpRequest();
+				request.open("GET", "http://127.0.0.1:8000/WebCam?mytext=" + data_uri);
+				request.onreadystatechange = function () {
+					if (this.readyState === 4 && this.status === 200) {
+						document.getElementById("sr").innerHTML = this.responseText;
+					}
+				};
+				request.send();
+			});
+		}
+		window.onload = function () {
+			Webcam.set({
+				width: 360,
+				height: 270,
+				image_format: 'jpeg',
+				jpeg_quality: 90
+			});
+			Webcam.attach('#my_camera');
+		};
+	</script>
+</head>
+
+<body class="page">
+	<div class="topbar">
+		<div class="nav">
+			<div class="brand">E-Voting <span class="pill">Secure</span></div>
+			<div class="nav-links">
+				<a class="active" href="#">Face capture</a>
+				<a href="{% url 'index' %}">Logout</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="shell">
+		<div class="hero">
+			<h1>Finish signup with face verification</h1>
+			<p>Capture a clear image to link your identity to the account.</p>
+		</div>
+
+		<div class="grid-2">
+			<div class="card">
+				<h3>Camera</h3>
+				<div id="my_camera"></div>
+				<div class="actions">
+					<button type="button" class="btn btn-primary" onclick="take_snapshot()">Take snapshot</button>
+				</div>
+			</div>
+
+			<div id="results" class="card">
+				<h3>Preview</h3>
+				<div class="muted">Your captured image will appear here.</div>
+			</div>
+		</div>
+
+		<div class="card">
+			<div id="sr" class="status muted">Server response will appear here after capture.</div>
+			<form name="f1" method="post" action="{% url 'saveSignup' %}">
+				{% csrf_token %}
+				<div class="actions">
+					<button type="submit" class="btn btn-primary">Complete signup</button>
+					<a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<div class="footer">E-Voting • Privacy and Transparency</div>
+
+	<!-- Toast Notification -->
+	<div id="toast" class="toast"></div>
+
+	<script>
+		// Check if there's an error message from the backend
+		const errorMessage = "{{ data|default:'' }}".trim();
+
+		if (errorMessage && errorMessage !== "" && errorMessage !== "None" && (errorMessage.includes("Unable") || errorMessage.includes("Error") || errorMessage.includes("Invalid"))) {
+			showToast(errorMessage, "error");
+		}
+
+		function showToast(message, type = "error") {
+			const toast = document.getElementById("toast");
+			toast.textContent = message;
+			toast.className = "toast toast-" + type + " show";
+
+			setTimeout(() => {
+				toast.className = "toast";
+			}, 4000);
+		}
+	</script>
+</body>
+
+</html>
